@@ -1,6 +1,6 @@
 [project]
 name = "thehouse"
-version = "3.0.1"
+version = "2.5.0"
 description = "A text-based horror game"
 authors = [
     {name = "Davide Di Criscito",email = "dcdavidev@gmail.com"}
@@ -58,11 +58,11 @@ use_parentheses = true
 ensure_newline_before_comments = true
 
 [tool.poe.tasks]
-release = "cz bump --changelog"
+release = "cz bump --changelog --yes"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "3.0.1"
+version = "2.5.0"
 version_files = [
     "pyproject.toml:version",
     "thehouse/__init__.py:__version__"
