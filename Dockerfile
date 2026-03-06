@@ -2,14 +2,11 @@ FROM python:3.12-alpine
 
 WORKDIR /app
 
-# Install dependencies
-COPY pyproject.toml poetry.lock ./
+# Copy the entire project first so metadata can be generated
+COPY . .
+
+# Install the project and its dependencies
 RUN pip install --no-cache-dir .
 
-# Copy the source code
-COPY thehouse ./thehouse
-
-# Set version (optional, but good for metadata)
-ENV PYTHONPATH=/app
-
-CMD ["python", "-m", "thehouse"]
+# The entry point 'thehouse' is created by the [project.scripts] in pyproject.toml
+CMD ["thehouse"]
