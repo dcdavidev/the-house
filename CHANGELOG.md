@@ -1,3 +1,9 @@
+## 2.6.1 (2026-03-06)
+
+### Fix
+
+- synchronize release tagging and simplify publish triggers
+
 ## 2.6.0 (2026-03-06)
 
 ### Feat
