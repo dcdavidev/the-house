@@ -3,13 +3,7 @@ name: Publish Docker Image
 on:
   push:
     tags:
-      - "v*"
-  release:
-    types: [published]
-  workflow_run:
-    workflows: ["Automated Release"]
-    types:
-      - completed
+      - '[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:
 
 env:
@@ -20,7 +14,6 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: read
       packages: write
