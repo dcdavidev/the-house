@@ -26,7 +26,7 @@ docker run -it dcdavidev/thehouse
 ```
 
 ### From Source
-If you downloaded the repository, ensure you have [Poetry](https://python-poetry.org/) installed, then run from the root of the repo:
+If you downloaded the repository, ensure you have [uv](https://github.com/astral-sh/uv) installed, then run from the root of the repo:
 ```bash
-poetry run python -m thehouse
+uv run thehouse
 ```

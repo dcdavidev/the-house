@@ -1,0 +1,28 @@
+commit-msg:
+  commands:
+    commitizen-check:
+      run: uvx --from commitizen cz check --commit-msg-file {1}
+
+pre-commit:
+  parallel: true
+  commands:
+    ruff-check:
+      glob: "*.py"
+      # Ruff runs perfectly in isolation, incredibly fast
+      run: uvx ruff check --fix {staged_files}
+    ruff-format:
+      glob: "*.py"
+      run: uvx ruff format {staged_files}
+    pytest:
+      # Pytest MUST run within the project context to access dependencies
+      run: uv run pytest tests/ -n auto --dist loadscope
+      tags: backend test
+      stage_fixed: true
+
+pre-push:
+  commands:
+    full-test:
+      # Same as above, requires project context
+      run: uv run pytest tests/
+    full-lint:
+      run: uvx ruff check .

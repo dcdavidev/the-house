@@ -1,78 +1,79 @@
 [project]
 name = "thehouse"
 version = "2.7.2"
-description = "A text-based horror game"
-authors = [
-    {name = "Davide Di Criscito",email = "dcdavidev@gmail.com"}
-]
-license = {text = "MIT"}
+description = "A high-performance text-based horror engine for immersive survival experiences."
+authors = [{ name = "Davide Di Criscito", email = "dcdavidev@gmail.com" }]
+license = { text = "MIT" }
 readme = "README.md"
-requires-python = ">=3.12,<4.0"
+requires-python = ">=3.12"
+keywords = [
+  "horror",
+  "game",
+  "text-based",
+  "adventure",
+  "cli",
+  "interactive-fiction",
+  "survival",
+]
 classifiers = [
-    "Topic :: Games/Entertainment"
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: End Users/Desktop",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Games/Entertainment :: Side-Scrolling/Arcade Games",
+  "Topic :: Games/Entertainment :: Simulation",
 ]
 dependencies = [
-    "pyfiglet (>=1.0.4,<2.0.0)",
-    "questionary (>=2.1.1,<3.0.0)",
-    "rich (>=14.3.3,<15.0.0)"
+  "pyfiglet>=1.0.2,<2.0.0",
+  "questionary>=2.1.0,<3.0.0",
+  "rich>=14.0.0,<15.0.0",
 ]
 
 [project.scripts]
 thehouse = "thehouse:main"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    "isort (>=7.0.0,<8.0.0)",
-    "black (>=25.12.0,<26.0.0)",
-    "poethepoet (>=0.42.1,<0.43.0)",
-    "commitizen (>=4.13.9,<5.0.0)"
+  "ruff>=0.15.5,<0.16.0",
+  "poethepoet>=0.42.0,<0.43.0",
+  "commitizen>=4.13.0,<5.0.0",
+  "lefthook>=2.1.3",
+  "pytest>=9.0.0",
+  "pytest-xdist>=3.8.0",
 ]
 
-[tool.black]
-line-length = 88
-target-version = ['py312']
-include = '\\.(py)$'
-exclude = '''
-/(
-        \.eggs
-    | \.git
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | _build
-    | buck-out
-    | build
-    | dist
-)/
-'''
+[tool.hatch.build.targets.wheel]
+packages = ["thehouse"]
 
-[tool.isort]
-profile = "black"
-line_length = 88
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-use_parentheses = true
-ensure_newline_before_comments = true
+[tool.ruff]
+line-length = 120
+target-version = "py312"
 
-[tool.poe.tasks]
-play = "python -m thehouse"
-release = "cz bump --changelog --yes --allow-no-commit"
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "2.7.2"
-tag_format = "$version"
+tag_format = "v$version"
 update_changelog_on_bump = true
 major_version_zero = false
 version_files = [
-    "pyproject.toml:version"
+  "pyproject.toml:version",
 ]
-bump_message = "bump: version $current_version → $new_version"
+bump_message = "chore: version $current_version → $new_version"
 bump_pattern = "^(feat|fix|refactor|perf|ci|chore)"
-change_type_map = {"feat" = "Feat", "fix" = "Fix", "refactor" = "Refactor", "perf" = "Perf", "ci" = "CI", "chore" = "Chore"}
+change_type_map = { "feat" = "Feat", "fix" = "Fix", "refactor" = "Refactor", "perf" = "Perf", "ci" = "CI", "chore" = "Chore" }
+
+[tool.poe.tasks]
+play = "python -m thehouse"
+release = "cz bump --changelog --check-consistency --yes"
+commit = "cz commit"
+lint = "ruff check ."
+fix = "ruff check --fix ."
+format = "ruff format ."
+test = "pytest tests/ -n auto"
